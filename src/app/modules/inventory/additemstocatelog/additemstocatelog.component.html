@@ -1,0 +1,185 @@
+<div class="block block-posts block-posts--layout--{{ layout }}" [attr.data-layout]="layout">
+  <div class="container pt-3">
+    <div class="block-posts__slider">
+      <div class="card">
+        <div class="card-header p-2 bg-primary text-white">
+          <h3>Add Items To Main Catelog</h3>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-body p-1">
+
+          <div class="card">
+            <div class="card-header bg-dark  text-white p-2 ">
+              <p class="m-0">Main catalog is the place where all the master items resids on. you can search through this
+                list to find out existing items those not in the main product database and add them by filling rest of
+                the essential details</p>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 col-xl-6 border border-secondary p-1">
+
+                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover stripe">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Specification Master Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let person of specmasters">
+                        <td>{{ person.Id }}</td>
+                        <td>{{ person.SpecName }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+                <div class="col-md-6 col-xl-6">
+
+                  <form [formGroup]="angForm" novalidate>
+                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Level1Id)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                    <div class="form-group">
+                      <label for="profile-first-name"><b>Select Category</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="Category"
+                        formControlName="Level1Id">
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['Level1Id'].invalid && (angForm.controls['Level1Id'].dirty || angForm.controls['Level1Id'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['Level1Id'].errors.required">
+                        Category is required.
+                      </div>
+                    </div>
+                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Brand)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1"><b>Specification Detail DataType</b></label>
+                      <select class="form-control" formControlName="Brand" id="exampleFormControlSelect1">
+                        <option>Text</option>
+                        <option>Integer</option>
+                        <option>Date and Time</option>
+                        <option>Decimal</option>
+
+                      </select>
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['Brand'].invalid && (angForm.controls['Brand'].dirty || angForm.controls['Brand'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['Brand'].errors.required">
+                        Brand Name is required.
+                      </div>
+                    </div>
+                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Model)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1"><b>Model</b></label>
+                      <select class="form-control" formControlName="Model" id="exampleFormControlSelect1">
+                        <option>Text</option>
+                        <option>Integer</option>
+                        <option>Date and Time</option>
+                        <option>Decimal</option>
+                      </select>
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['Model'].invalid && (angForm.controls['Model'].dirty || angForm.controls['Model'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['Model'].errors.required">
+                        Model Name is required.
+                      </div>
+                    </div>
+                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Series)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+
+                    <div class="form-group">
+                      <label for="profile-first-name"><b>Select Series</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="Series"
+                        formControlName="Series">
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['Series'].invalid && (angForm.controls['Series'].dirty || angForm.controls['Series'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['Series'].errors.required">
+                        Series is required.
+                      </div>
+                    </div>
+
+                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (ProductName)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                    <div class="form-group">
+                      <label for="profile-first-name"><b> Select Catelog Name</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="Product Name"
+                        formControlName="ProductName">
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['ProductName'].invalid && (angForm.controls['ProductName'].dirty || angForm.controls['ProductName'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['ProductName'].errors.required">
+                          Catelog Name is required.
+                      </div>
+                    </div>
+
+                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Part Number)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                    <!-- <div class="form-group">
+                      <label for="profile-first-name"><b>Select Part Number</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="Part Number"
+                        formControlName="PartNumber">
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['PartNumber'].invalid && (angForm.controls['PartNumber'].dirty || angForm.controls['PartNumber'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['PartNumber'].errors.required">
+                        Part Number is required.
+                      </div>
+                    </div> -->
+
+                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (ItemNo)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                    <!-- <div class="form-group">
+                      <label for="profile-first-name"><b> Select Item Number</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="Spec Item Number"
+                        formControlName="ItemNo">
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['ItemNo'].invalid && (angForm.controls['ItemNo'].dirty || angForm.controls['ItemNo'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['ItemNo'].errors.required">
+                        Item Number is required.
+                      </div>
+                    </div> -->
+                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (UNSPSC)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                    <!-- <div class="form-group">
+                      <label for="profile-first-name"><b>Select UNSPSC</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="UNSPSC"
+                        formControlName="UNSPSC">
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['UNSPSC'].invalid && (angForm.controls['UNSPSC'].dirty || angForm.controls['UNSPSC'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['UNSPSC'].errors.required">
+                        UNSPSC is required.
+                      </div>
+                    </div> -->
+
+
+
+                    <div>
+                      <a href="" class="mr-3"> <i class="fas fa-question-circle mr-1"></i>I need help!</a>
+                      <a href=""> <i class="far fa-file-excel mr-1"></i>Download Excel Format</a>
+                    </div>
+                    <div class="form-group mt-1 mb-0">
+                      <button class="btn btn-primary btn-sm mr-1" (click)="btn_excelUpload_click()"><span><i
+                            class="far fa-file-excel mr-1"></i></span> Excel Upload</button>
+                      <button class="btn btn-primary btn-sm mr-1" (click)="btn_save_click()"><span><i
+                            class="far fa-save mr-1"></i></span>Save</button>
+                      <button class="btn btn-primary btn-sm mr-1" (click)="btn_update_click()"><span><i
+                            class="fa fa-external-link-alt mr-1"></i></span>Update</button>
+                      <button class="btn btn-danger btn-sm" (click)="btn_Delete_click()()"><span><i
+                            class="far fa-trash-alt mr-1"></i></span>Delete</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- end card body -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

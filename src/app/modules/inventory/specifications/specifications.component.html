@@ -1,0 +1,185 @@
+<div class="block block-posts block-posts--layout--{{ layout }}" [attr.data-layout]="layout">
+  <div class="container pt-3">
+    <div class="block-posts__slider">
+      <div class="card">
+        <div class="card-header p-2 bg-primary text-white">
+          <h3>Product Specification Parameters</h3>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-body p-1">
+
+          <div class="card">
+            <div class="card-header bg-dark  text-white p-2 ">
+              <h5>Specification Master</h5>
+              <p class="m-0">This will define your specification templates.you cand define one for each category</p>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 col-xl-6 border border-secondary p-1">
+
+                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover stripe">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Specification Master Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let person of specmasters">
+                        <td>{{ person.Id }}</td>
+                        <td>{{ person.SpecName }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+                <div class="col-md-6 col-xl-6">
+
+                  <form [formGroup]="angForm" novalidate>
+                    <div class="form-group">
+                      <label for="profile-first-name"><b>Specification Master Name</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="Spec Master Name"
+                        formControlName="spec_name">
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['spec_name'].invalid && (angForm.controls['spec_name'].dirty || angForm.controls['spec_name'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['spec_name'].errors.required">
+                        Spec master name is required.
+                      </div>
+                    </div>
+                    <div>
+                      <i class="fas fa-question-circle mr-1"></i>
+                      <a href="">I need help!</a>
+                    </div>
+                    <div class="form-group mt-1 mb-0">
+                      <button class="btn btn-primary btn-sm mr-1" (click)="Addspecmaster()"><span><i
+                            class="far fa-save mr-1"></i></span>Save</button>
+                      <button class="btn btn-primary btn-sm mr-1" (click)="Updatespecmaster()"><span><i
+                            class="fa fa-external-link-alt mr-1"></i></span>Update</button>
+                      <button class="btn btn-danger btn-sm" (click)="Deletespecmaster()"><span><i
+                            class="far fa-trash-alt mr-1"></i></span>Delete</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- end card body -->
+          </div>
+
+
+
+
+
+
+
+
+          <div class="card">
+            <div class="card-header bg-dark  text-white p-2 ">
+              <h5>Specification Details</h5>
+              <p class="m-0">Select master parameter from the top and add detail parameters for it</p>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 col-xl-6 border border-secondary p-1">
+                  <table datatable class="row-border hover">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Foo</td>
+                        <td>Bar</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Someone</td>
+                        <td>Youknow</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>Iamout</td>
+                        <td>Ofinspiration</td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>Yoda</td>
+                        <td>Skywalker</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-6 col-xl-6">
+
+
+                  <form [formGroup]="angForm1" novalidate>
+
+                    <div class="form-group">
+                      <label for="profile-first-name"><b>Specification Detail Name</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="Spec Master Name"
+                        formControlName="spec2_name">
+                    </div>
+                    <div
+                      *ngIf="angForm1.controls['spec2_name'].invalid && (angForm1.controls['spec2_name'].dirty || angForm1.controls['spec2_name'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm1.controls['spec2_name'].errors.required">
+                        Specification Detail Name is required.
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1"><b>Specification Detail DataType</b></label>
+                      <select class="form-control" formControlName="dattype" id="exampleFormControlSelect1">
+                        <option>Text</option>
+                        <option>Integer</option>
+                        <option>Date and Time</option>
+                        <option>Decimal</option>
+
+                      </select>
+                    </div>
+                    <div
+                      *ngIf="angForm1.controls['dattype'].invalid && (angForm1.controls['dattype'].dirty || angForm1.controls['dattype'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm1.controls['dattype'].errors.required">
+                        Specification Detail DataType is required.
+                      </div>
+                    </div>
+
+                    <div>
+
+                      <a href="" class="mr-3"> <i class="fas fa-question-circle mr-1"></i>I need help!</a>
+
+
+                      <a href=""> <i class="far fa-file-excel mr-1"></i>Download Excel Format</a>
+
+                    </div>
+                    <div class="form-group mt-1 mb-0">
+                      <button class="btn btn-primary btn-sm mr-1" (click)="Addspecdetail()"><span><i
+                            class="far fa-file-excel mr-1"></i></span> Excel Upload</button>
+                      <button class="btn btn-primary btn-sm mr-1" (click)="Addspecdetail()"><span><i
+                            class="far fa-save mr-1"></i></span>Save</button>
+                      <button class="btn btn-primary btn-sm mr-1" (click)="Updatespecdetail()"><span><i
+                            class="fa fa-external-link-alt mr-1"></i></span>Update</button>
+                      <button class="btn btn-danger btn-sm" (click)="Deletespecdetail()"><span><i
+                            class="far fa-trash-alt mr-1"></i></span>Delete</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+            <!-- end card body -->
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>

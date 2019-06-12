@@ -30,6 +30,14 @@ import { RootComponent } from './components/root/root.component';
 import { PageHomeOneComponent } from './pages/page-home-one/page-home-one.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { PageHomeTwoComponent } from './pages/page-home-two/page-home-two.component';
+import { LoginComponent } from './login/login.component';
+import { GlobalsParams } from './shared/services/global.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthGuard } from './_helpers/auth.guard';
+import { JwtInterceptor } from './_helpers/jwt.interceptor';
+import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { SystemMessages } from './shared/services/messages.service';
+
 
 
 @NgModule({
@@ -40,7 +48,9 @@ import { PageHomeTwoComponent } from './pages/page-home-two/page-home-two.compon
         // pages
         PageHomeOneComponent,
         PageNotFoundComponent,
-        PageHomeTwoComponent
+        PageHomeTwoComponent,
+        LoginComponent,
+       
     ],
     imports: [
         // modules (angular)
@@ -58,10 +68,19 @@ import { PageHomeTwoComponent } from './pages/page-home-two/page-home-two.compon
         HeaderModule,
         MobileModule,
         SharedModule,
-        WidgetsModule
+        WidgetsModule,
+        HttpClientModule
+        
+        
     ],
     providers: [
         // { provide: LOCALE_ID, useValue: 'it' }
+        GlobalsParams,
+        SystemMessages,
+        AuthGuard,
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
     ],
     bootstrap: [AppComponent]
 })

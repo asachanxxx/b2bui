@@ -1,0 +1,243 @@
+<div class="block block-posts block-posts--layout--{{ layout }}" [attr.data-layout]="layout">
+  <div class="container pt-3">
+    <div class="block-posts__slider">
+      <div class="card">
+        <div class="card-header p-2 bg-primary text-white">
+          <h3>Product Categorization</h3>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-body p-1">
+
+          <div class="card">
+            <div class="card-header bg-dark  text-white p-2 ">
+              <h5>Categories</h5>
+              <p class="m-0">This is the top level categorization of a given product. This is the place where you can enter then but you cannot insert values that are already in the system.</p>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 col-xl-6 border border-secondary p-1">
+
+                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover stripe">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Category Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let person of specmasters">
+                        <td>{{ person.Id }}</td>
+                        <td>{{ person.SpecName }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+                <div class="col-md-6 col-xl-6">
+
+                  <form [formGroup]="angForm" novalidate>
+                    <div class="form-group">
+                      <label for="profile-first-name"><b>Category Name</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="Spec Master Name"
+                        formControlName="category_name">
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['category_name'].invalid && (angForm.controls['category_name'].dirty || angForm.controls['category_name'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['category_name'].errors.required">
+                        Category name is required.
+                      </div>
+                    </div>
+                    <div>
+                      <a href="" class="mr-3"> <i class="fas fa-question-circle mr-1"></i>I need help!</a>
+                    </div>
+                    <div class="form-group mt-1 mb-0">
+                      <button class="btn btn-primary btn-sm mr-1" (click)="btn_save_cat_click()"><span><i
+                            class="far fa-save mr-1"></i></span>Save</button>
+                      <button class="btn btn-primary btn-sm mr-1" (click)="btn_update_cat_click()"><span><i
+                            class="fa fa-external-link-alt mr-1"></i></span>Update</button>
+                      <button class="btn btn-danger btn-sm" (click)="btn_Delete_cat_click()()"><span><i
+                            class="far fa-trash-alt mr-1"></i></span>Delete</button>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- end card body -->
+          </div>
+
+
+
+
+
+          <div class="card">
+            <div class="card-header bg-dark  text-white p-2 ">
+              <h5>Sub Categories</h5>
+              <p class="m-0">This defines the second level of a product and given category has one or more sub categories.select a Category from above list and Enter a name and press 
+                enter will add a sub Category to system. you cannot enter duplicate sub category to system.
+              </p>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 col-xl-6 border border-secondary p-1">
+                  <table datatable class="row-border hover">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Foo</td>
+                        <td>Bar</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Someone</td>
+                        <td>Youknow</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>Iamout</td>
+                        <td>Ofinspiration</td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>Yoda</td>
+                        <td>Skywalker</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-6 col-xl-6">
+
+
+                  <form [formGroup]="angForm1" novalidate>
+
+                    <div class="form-group">
+                      <label for="profile-first-name"><b>Sub Category Name</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="Spec Master Name"
+                        formControlName="subcategory_name">
+                    </div>
+                    <div
+                      *ngIf="angForm1.controls['subcategory_name'].invalid && (angForm1.controls['subcategory_name'].dirty || angForm1.controls['subcategory_name'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm1.controls['subcategory_name'].errors.required">
+                          Sub Category Name is required.
+                      </div>
+                    </div>
+                    <div>
+                      <a href="" class="mr-3"> <i class="fas fa-question-circle mr-1"></i>I need help!</a>
+                    </div>
+                    <div class="form-group mt-1 mb-0">
+                      <button class="btn btn-primary btn-sm mr-1" (click)="btn_save_subcat_click()"><span><i
+                            class="far fa-save mr-1"></i></span>Save</button>
+                      <button class="btn btn-primary btn-sm mr-1" (click)="btn_update_subcat_click()"><span><i
+                            class="fa fa-external-link-alt mr-1"></i></span>Update</button>
+                      <button class="btn btn-danger btn-sm" (click)="btn_Delete_subcat_click()()"><span><i
+                            class="far fa-trash-alt mr-1"></i></span>Delete</button>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+
+            </div>
+            <!-- end card body -->
+          </div>
+
+
+
+
+          <div class="card">
+              <div class="card-header bg-dark  text-white p-2 ">
+                <h5>Sub Category Level 2</h5>
+                <p class="m-0">This defines the third level of a product and given category and sub category has one or more sub categories Level 2s.select a Category and a sub category from above list and Enter a name and press 
+                  enter will add a Sub Category Level 2 to system. you cannot enter duplicate Sub Category Level 2 to system.
+                </p>
+              </div>
+              <div class="card-divider"></div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 col-xl-6 border border-secondary p-1">
+                    <table datatable class="row-border hover">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>First name</th>
+                          <th>Last name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>Foo</td>
+                          <td>Bar</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>Someone</td>
+                          <td>Youknow</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>Iamout</td>
+                          <td>Ofinspiration</td>
+                        </tr>
+                        <tr>
+                          <td>4</td>
+                          <td>Yoda</td>
+                          <td>Skywalker</td>
+                        </tr>
+  
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-6 col-xl-6">
+  
+  
+                    <form [formGroup]="angForm2" novalidate>
+  
+                      <div class="form-group">
+                        <label for="profile-first-name"><b>Sub Category Name</b></label>
+                        <input type="text" class="form-control" id="profile-first-name" placeholder="Spec Master Name"
+                          formControlName="subcategory2_name">
+                      </div>
+                      <div
+                        *ngIf="angForm2.controls['subcategory2_name'].invalid && (angForm2.controls['subcategory2_name'].dirty || angForm2.controls['subcategory2_name'].touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="angForm2.controls['subcategory2_name'].errors.required">
+                            Sub Category Level 2 Name is required.
+                        </div>
+                      </div>
+                      <div>
+                        <a href="" class="mr-3"> <i class="fas fa-question-circle mr-1"></i>I need help!</a>
+                      </div>
+                      <div class="form-group mt-1 mb-0">
+                        <button class="btn btn-primary btn-sm mr-1" (click)="btn_save_subcat2_click()"><span><i
+                              class="far fa-save mr-1"></i></span>Save</button>
+                        <button class="btn btn-primary btn-sm mr-1" (click)="btn_update_subcat2_click()"><span><i
+                              class="fa fa-external-link-alt mr-1"></i></span>Update</button>
+                        <button class="btn btn-danger btn-sm" (click)="btn_Delete_subcat2_click()()"><span><i
+                              class="far fa-trash-alt mr-1"></i></span>Delete</button>
+                      </div>
+  
+                    </form>
+                  </div>
+                </div>
+  
+              </div>
+              <!-- end card body -->
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </div>

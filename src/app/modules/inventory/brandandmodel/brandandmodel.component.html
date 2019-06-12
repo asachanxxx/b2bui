@@ -1,0 +1,160 @@
+<div class="block block-posts block-posts--layout--{{ layout }}" [attr.data-layout]="layout">
+    <div class="container pt-3">
+      <div class="block-posts__slider">
+        <div class="card">
+          <div class="card-header p-2 bg-primary text-white">
+            <h3>Brands And Models</h3>
+          </div>
+          <div class="card-divider"></div>
+          <div class="card-body p-1">
+  
+            <div class="card">
+              <div class="card-header bg-dark  text-white p-2 ">
+                <h5>Brands</h5>
+                <p class="m-0">All items has thire own charastatistical brand associated with. this is the place you can add new brands to system witch not yet inserted.
+                  Please note that brand name cannot be duplicate.
+                </p>
+              </div>
+              <div class="card-divider"></div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 col-xl-6 border border-secondary p-1">
+  
+                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover stripe">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Brand Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let person of specmasters">
+                          <td>{{ person.Id }}</td>
+                          <td>{{ person.SpecName }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+  
+                  </div>
+                  <div class="col-md-6 col-xl-6">
+  
+                    <form [formGroup]="angForm" novalidate>
+                      <div class="form-group">
+                        <label for="profile-first-name"><b>Brand Name</b></label>
+                        <input type="text" class="form-control" id="profile-first-name" placeholder="Spec Master Name"
+                          formControlName="brand_name">
+                      </div>
+                      <div
+                        *ngIf="angForm.controls['brand_name'].invalid && (angForm.controls['brand_name'].dirty || angForm.controls['brand_name'].touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="angForm.controls['brand_name'].errors.required">
+                            Brand name is required.
+                        </div>
+                      </div>
+                      <div>
+                        <i class="fas fa-question-circle mr-1"></i>
+                        <a href="">I need help!</a>
+                      </div>
+                      <div class="form-group mt-1 mb-0">
+                        <button class="btn btn-primary btn-sm mr-1" (click)="btn_brand_save_click()"><span><i
+                              class="far fa-save mr-1"></i></span>Save</button>
+                        <button class="btn btn-primary btn-sm mr-1" (click)="btn_brand_update_click()"><span><i
+                              class="fa fa-external-link-alt mr-1"></i></span>Update</button>
+                        <button class="btn btn-danger btn-sm" (click)="btn_brand_delete_click()()"><span><i
+                              class="far fa-trash-alt mr-1"></i></span>Delete</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!-- end card body -->
+            </div>
+  
+            <div class="card">
+              <div class="card-header bg-dark  text-white p-2 ">
+                <h5>Models</h5>
+                <p class="m-0">All brands have thire own set of models.they are the basic charastaristicals of a product.in here you can enter models for a brand.
+                      Simply click one of the Brand on above Brands list and enter details of the following fileds and press save
+                </p>
+              </div>
+              <div class="card-divider"></div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 col-xl-6 border border-secondary p-1">
+                    <table datatable class="row-border hover">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>First name</th>
+                          <th>Last name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>Foo</td>
+                          <td>Bar</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>Someone</td>
+                          <td>Youknow</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>Iamout</td>
+                          <td>Ofinspiration</td>
+                        </tr>
+                        <tr>
+                          <td>4</td>
+                          <td>Yoda</td>
+                          <td>Skywalker</td>
+                        </tr>
+  
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-6 col-xl-6">
+  
+  
+                    <form [formGroup]="angForm1" novalidate>
+  
+                      <div class="form-group">
+                        <label for="profile-first-name"><b>Model</b></label>
+                        <input type="text" class="form-control" id="profile-first-name" placeholder="Spec Master Name"
+                          formControlName="model_name">
+                      </div>
+                      <div
+                        *ngIf="angForm1.controls['model_name'].invalid && (angForm1.controls['model_name'].dirty || angForm1.controls['model_name'].touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="angForm1.controls['model_name'].errors.required">
+                          Model Name is required.
+                        </div>
+                      </div>
+                      <div>
+                        <a href="" class="mr-3"> <i class="fas fa-question-circle mr-1"></i>I need help!</a>
+                        <a href=""> <i class="far fa-file-excel mr-1"></i>Download Excel Format</a>
+                      </div>
+                      <div class="form-group mt-1 mb-0">
+                          <button class="btn btn-primary btn-sm mr-1" (click)="btn_model_excel_click()"><span><i
+                            class="far fa-file-excel mr-1"></i></span> Excel Upload</button>
+                          <button class="btn btn-primary btn-sm mr-1" (click)="btn_model_save_click()"><span><i
+                                class="far fa-save mr-1"></i></span>Save</button>
+                          <button class="btn btn-primary btn-sm mr-1" (click)="btn_model_update_click()"><span><i
+                                class="fa fa-external-link-alt mr-1"></i></span>Update</button>
+                          <button class="btn btn-danger btn-sm" (click)="btn_model_delete_click()()"><span><i
+                                class="far fa-trash-alt mr-1"></i></span>Delete</button>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+  
+              </div>
+              <!-- end card body -->
+            </div>
+  
+          </div>
+  
+        </div>
+      </div>
+    </div>

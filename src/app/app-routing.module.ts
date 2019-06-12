@@ -4,6 +4,8 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { PageHomeOneComponent } from './pages/page-home-one/page-home-one.component';
 import { PageHomeTwoComponent } from './pages/page-home-two/page-home-two.component';
 import { RootComponent } from './components/root/root.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './_helpers/auth.guard';
 
 export function makeRoutes(homeComponent: Type<any>): Routes {
     return [
@@ -14,7 +16,7 @@ export function makeRoutes(homeComponent: Type<any>): Routes {
         },
         {
             path: 'home',
-            component: homeComponent
+            component: homeComponent,canActivate: [AuthGuard] 
         },
         {
             path: 'blog',
@@ -33,6 +35,10 @@ export function makeRoutes(homeComponent: Type<any>): Routes {
             loadChildren: './modules/site/site.module#SiteModule'
         },
         {
+            path: 'inventory',
+            loadChildren: './modules/inventory/inventory.module#InventoryModule'
+        },
+        {
             path: '**',
             component: PageNotFoundComponent
         }
@@ -43,7 +49,16 @@ const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'classic'
+        redirectTo: 'login'
+    },
+    // {
+    //     path: '',
+    //     pathMatch: 'full',
+    //     redirectTo: 'compact'
+    // },
+    {
+        path: 'login',
+        component: LoginComponent,
     },
     {
         path: 'classic',
@@ -63,7 +78,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'classic'
+        redirectTo: 'compact'
     }
 ];
 
