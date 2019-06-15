@@ -1,3 +1,87 @@
-<p>
-  catelogsearch works!
-</p>
+<div class="block block-posts block-posts--layout--{{ layout }}" [attr.data-layout]="layout">
+  <div class="container pt-3">
+    <div class="block-posts__slider">
+      <div class="card">
+        <div class="card-header p-2 bg-primary text-white">
+          <h3>Brands And Models</h3>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-body p-1">
+
+          <div class="card">
+            <div class="card-header bg-dark  text-white p-2 ">
+              <h5>Brands</h5>
+              <p class="m-0">All items has thire own charastatistical brand associated with. this is the place you can add new brands to system witch not yet inserted.
+                Please note that brand name cannot be duplicate.
+              </p>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 col-xl-6 border border-secondary p-1">
+
+                  <!-- <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover stripe">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Brand Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let obj of _AllBrands">
+                        <td>{{ obj.Id }}</td>
+                        <td>{{ obj.Name }}</td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+
+                  <p>
+                    <button type="button" class="btn waves-effect waves-light blue" (click)="displayToConsole()">
+                      Display the DataTable instances in the console
+                    </button>
+                    </p>
+
+                    <table id="first-table" datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger" class="row-border hover">
+
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Model Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let obj of _AllBrands">
+                          <td>{{ obj.Id }}</td>
+                          <td>{{ obj.Name }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+
+                    <table id="second-table" datatable [dtOptions]="dtOptions[1]" [dtTrigger]="dtTrigger2"  class="row-border hover">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Model Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let obj of _AllBrands2">
+                          <td>{{ obj.Id }}</td>
+                          <td>{{ obj.CustomerName }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+
+                </div>
+                <div class="col-md-6 col-xl-6">
+                </div>
+              </div>
+            </div>
+            <!-- end card body -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

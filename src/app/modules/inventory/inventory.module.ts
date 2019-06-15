@@ -21,6 +21,8 @@ import { AddproductsComponent } from './addproducts/addproducts.component';
 import { DataTablesModule } from 'angular-datatables';
 import { BrandandmodelComponent } from './brandandmodel/brandandmodel.component';
 import { CategorizationComponent } from './categorization/categorization.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
     declarations: [
@@ -30,7 +32,9 @@ import { CategorizationComponent } from './categorization/categorization.compone
         ViewallitemsComponent,
         AddproductsComponent,
         BrandandmodelComponent,
-        CategorizationComponent
+        CategorizationComponent,
+
+
     ],
     imports: [
         // modules (angular)
@@ -44,7 +48,9 @@ import { CategorizationComponent } from './categorization/categorization.compone
         SharedModule,
         InventoryRoutingModule,
         WidgetsModule,
-        DataTablesModule
+        DataTablesModule,
+        NgbModule
+        
       
     ]
 })

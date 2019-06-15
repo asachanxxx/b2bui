@@ -1,49 +1,73 @@
-import { Component, OnInit, OnDestroy, ViewChild, Renderer, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Renderer, AfterViewInit, QueryList, ViewChildren } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ProductService } from 'src/app/shared/services/Inventory/product.service';
-import { SpecMaster } from 'src/app/shared/models/Inventory/spec.model';
 import { SystemMessages } from 'src/app/shared/services/messages.service';
 import { ToastrService } from 'ngx-toastr';
 import { DataTableDirective } from 'angular-datatables';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { GlobalsParams } from 'src/app/shared/services/global.service';
+import { Brand, Model, Series } from 'src/app/shared/models/Inventory/branModelSeries.model';
+
+
 
 
 @Component({
   selector: 'app-brandandmodel',
   templateUrl: './brandandmodel.component.html',
   styleUrls: ['./brandandmodel.component.sass'],
-  providers:[ProductService]
+  providers: [ProductService]
 })
-export class BrandandmodelComponent implements OnInit, OnDestroy,AfterViewInit {
+export class BrandandmodelComponent implements OnInit {
   numbers: any;
-  specmasters: any
+  _AllBrands: Brand[]
+  _AllModels: Model[]
+  _AllSeries: Series[]
 
-  @ViewChild(DataTableDirective)
-  dtElement: DataTableDirective;
-  
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
+  //For Brand data table
+  selectedRowBrand: Number;
+  pageBrand = 1;
+  pageSizeBrand = 5;
+  collectionSizeBRand = 0;
+  SelectedRowBrandIndex: any;
+  SelectedRowBrand: any;
+
+  //For Model data table
+  selectedRowModel: Number;
+  pageModel = 1;
+  pageSizeModel = 5;
+  collectionSizeModel = 0;
+  SelectedRowModelIndex: any;
+  SelectedRowModel: any;
+
+  //For Series data table
+  selectedRowSeries: Number;
+  pageSeries = 1;
+  pageSizeSeries = 5;
+  collectionSizeSeries = 0;
+  SelectedRowSeriesIndex: any;
+  SelectedRowSeries: any;
+
 
   angForm: FormGroup;
-  angForm1: FormGroup;
+  angFormModel: FormGroup;
+  angFormSeries: FormGroup;
 
-  table1Selected: any;
-  table1Selected1: any;
+
+
 
   constructor(
     private productservice: ProductService,
     private messages: SystemMessages,
     private toastr: ToastrService,
-    private renderer: Renderer,
     private fb: FormBuilder,
-    private fb1: FormBuilder,
+    private fbModel: FormBuilder,
+    private fbSeries: FormBuilder,
     private globalval: GlobalsParams
   ) {
-    this.specmasters = [];
+    this._AllBrands = [];
     this.createForm();
     this.createForm1();
+    this.createForm2();
   }
 
 
@@ -53,67 +77,175 @@ export class BrandandmodelComponent implements OnInit, OnDestroy,AfterViewInit {
     });
   }
   createForm1() {
-    this.angForm1 = this.fb1.group({
+    this.angFormModel = this.fbModel.group({
       model_name: ['', Validators.required],
+    });
+  }
+  createForm2() {
+    this.angFormSeries = this.fbSeries.group({
+      series_name: ['', Validators.required],
     });
   }
 
 
   ngOnInit() {
-    
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 5,
-      select: true,
-      rowCallback: (row: Node, data: any[] | Object, index: number) => {
-        const self = this;
-        // Unbind first in order to avoid any duplicate handler
-        // (see https://github.com/l-lin/angular-datatables/issues/87)
-        $('td', row).unbind('click');
-        $('td', row).bind('click', () => {
-          self.table1clickhandler(data);
-        });
-        return row;
-      }
-    };
-    this.GetAllspecDetails();
-   
+    this.GetAllBrands();
+    this.GetAllModels();
+    this.GetAllSeries();
   }
 
-  table1clickhandler(info: any): void {
-    this.table1Selected = info;
+  table1clickhandler(incomingBrand: any): void {
     this.angForm.patchValue({
-      spec_name: info[1],
+      brand_name: incomingBrand["Name"],
     });
-    console.log("info", info)
   }
 
-  ngAfterViewInit(): void { 
-    console.log("ngAfterViewInit");
-    // this.dtTrigger.next(); 
+  table1clickhandlerModel(incomingModel: any): void {
+    console.log("incomingBrand", incomingModel)
+    this.angFormModel.patchValue({
+      model_name: incomingModel["Name"],
+    });
   }
 
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
+  table1clickhandlerSeries(incomingSeries: any): void {
+    console.log("incomingSeries", incomingSeries)
+    this.angFormSeries.patchValue({
+      series_name: incomingSeries["Name"],
+    });
   }
 
-  rerender(): void {
-    if( this.dtElement.dtInstance === undefined){
-      this.dtTrigger.next(); 
+
+  //#region Btton Clickes *************************************************************************************************************************
+
+  btn_brand_save_click() {
+    this.AddBrand(1);
+  }
+
+  btn_brand_update_click() {
+    this.AddBrand(2);
+  }
+
+  btn_brand_delete_click() {
+
+  }
+
+  btn_model_excel_click() {
+
+  }
+
+  btn_model_save_click() {
+    this.AddModel(1);
+  }
+
+  btn_model_update_click() {
+    this.AddModel(2);
+  }
+  btn_model_delete_click() {
+
+  }
+
+  btn_Series_excel_click(){
+
+  }
+  btn_Seriessave_click(){
+    this.AddSeries(1);
+  }
+  btn_Seriesupdate_click(){
+    this.AddSeries(2);
+  }
+  btn_Seriesdelete_click(){
+    
+  }
+
+
+  setClickedRowBrand(index, obj) {
+    this.SelectedRowBrandIndex = index;
+    this.SelectedRowBrand = obj;
+    this.table1clickhandler(obj);
+  }
+
+
+  setClickedRowModel(index, obj) {
+    this.SelectedRowModelIndex = index;
+    this.SelectedRowModel = obj;
+    this.table1clickhandlerModel(obj);
+  }
+
+  setClickedRowSeries(index, obj) {
+    this.SelectedRowSeriesIndex = index;
+    this.SelectedRowSeries = obj;
+    this.table1clickhandlerSeries(obj);
+  }
+
+  //#endregion
+
+  //#region  Get All methods and  BrandsMapped section ********************************************************************************
+  BrandsMapped(): Brand[] {
+    if (this._AllBrands !== undefined) {
+      return this._AllBrands.
+        map((objmapped, i) => ({ id: i + 1, ...objmapped }))
+        .slice((this.pageBrand - 1) * this.pageSizeBrand, (this.pageBrand - 1) * this.pageSizeBrand + this.pageSizeBrand);
     }
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-       dtInstance.destroy();
-       this.dtTrigger.next();     
-   });
   }
 
-  GetAllspecDetails() {
-    this.productservice.getSpecMasters().subscribe(
+  ModelMapped(): Model[] {
+    if (this._AllModels !== undefined) {
+    return this._AllModels.
+      map((objmapped, i) => ({ id: i + 1, ...objmapped }))
+      .slice((this.pageModel - 1) * this.pageSizeModel, (this.pageModel - 1) * this.pageSizeModel + this.pageSizeModel);
+    }
+  }
+  SeriesMapped(): Model[] {
+    if (this._AllSeries !== undefined) {
+    return this._AllSeries.
+      map((objmapped, i) => ({ id: i + 1, ...objmapped }))
+      .slice((this.pageSeries - 1) * this.pageSizeSeries, (this.pageSeries - 1) * this.pageSizeSeries + this.pageSizeSeries);
+    }
+  }
+
+
+  GetAllBrands() {
+    this.productservice.GetAllBrands().subscribe(
       data => {
-        this.specmasters = data;
-        this.rerender();
-        //this.dtTrigger.next();
-        console.log(this.specmasters);
+        this.collectionSizeBRand = data.length;
+        this._AllBrands = data;
+
+      },
+      error => {
+        if (error.status == 0) {
+          this.toastr.error(this.messages.DataserviceNotAvaibale, this.messages.MessageCaption);
+        } else {
+          this.toastr.error(this.messages.GenaralError, this.messages.MessageCaption);
+        }
+      }
+
+    )
+  }
+
+  GetAllModels() {
+    this.productservice.GetAllModel().subscribe(
+      data => {
+        this.collectionSizeModel = data.length;
+        this._AllModels = data;
+
+      },
+      error => {
+        if (error.status == 0) {
+          this.toastr.error(this.messages.DataserviceNotAvaibale, this.messages.MessageCaption);
+        } else {
+          this.toastr.error(this.messages.GenaralError, this.messages.MessageCaption);
+        }
+      }
+
+    )
+  }
+
+  GetAllSeries() {
+    this.productservice.GetAllSeries().subscribe(
+      data => {
+        this.collectionSizeSeries = data.length;
+        this._AllSeries = data;
+
       },
       error => {
         if (error.status == 0) {
@@ -127,64 +259,138 @@ export class BrandandmodelComponent implements OnInit, OnDestroy,AfterViewInit {
   }
 
 
+  //#endregion
 
-  Addspecmaster() {
-    console.log("this.angForm.controls[spec_name]", this.angForm.controls["spec_name"].value)
-    var obj: SpecMaster = new SpecMaster();
-    obj.Id = 1;
-    obj.SpecName = this.angForm.controls["spec_name"].value;
-    obj.CreatedBy = this.globalval.LoggedInUserId;
-    obj.ModifiedBy = this.globalval.LoggedInUserId;
-    obj.CreatedWhen = new Date();
-    obj.ModifiedWhen = new Date();
-    this.productservice.saveSpecMaster(obj, 1).subscribe(
-      data => {
-        this.toastr.success("Specification master saved succesfully", this.messages.MessageCaption);
-        //this.dtTrigger.unsubscribe();
-        this.GetAllspecDetails();
-        this.rerender()
-      },
-      error => {
-        if (error.status == 0) {
-          this.toastr.error(this.messages.DataserviceNotAvaibale, this.messages.MessageCaption);
-        } else {
-          this.toastr.error(this.messages.GenaralError, this.messages.MessageCaption);
-        }
-      }
-    )
+  //#region  Data Saving Section
 
-  }
-
-  Updatespecmaster() {
-    if (this.table1Selected === undefined) {
-      //error
+  AddBrand(action: number) {
+    // console.log("this.angForm.controls[brand_name].value", this.angForm.controls["brand_name"].value)
+    // console.log("this.SelectedRowBrand", this.SelectedRowBrand)
+    if (this.angForm.controls["brand_name"].value === "") {
+      this.toastr.error("Brand Name cannot be empty!", this.messages.MessageCaption);
       return;
     }
-    console.log("this.angForm.controls[spec_name]", this.angForm.controls["spec_name"].value)
-    var obj: SpecMaster = new SpecMaster();
-    obj.Id = this.table1Selected[0];
-    obj.SpecName = this.angForm.controls["spec_name"].value;
+
+    var obj: Brand = new Brand();
+    if (action == 2) {
+      if (this.SelectedRowBrand === undefined) {
+        this.toastr.error("Please select a record from brands table to update!", this.messages.MessageCaption);
+        return;
+      } else {
+        obj.Id = this.SelectedRowBrand["Id"];
+      }
+    } else {
+      obj.Id = 1;
+    }
+    obj.Name = this.angForm.controls["brand_name"].value;
     obj.CreatedBy = this.globalval.LoggedInUserId;
     obj.ModifiedBy = this.globalval.LoggedInUserId;
     obj.CreatedWhen = new Date();
     obj.ModifiedWhen = new Date();
-    this.productservice.saveSpecMaster(obj, 2).subscribe(
+    this.productservice.SaveBrand(obj, action).subscribe(
       data => {
-        this.toastr.success("Specification master Updated succesfully", this.messages.MessageCaption);
-        //this.dtTrigger.unsubscribe();
-        this.GetAllspecDetails();
+        this.toastr.success("Brand saved succesfully", this.messages.MessageCaption);
+        this._AllBrands = [];
+        this.GetAllBrands();
       },
       error => {
-        if (error.status == 0) {
+        if (error.status == 500) {
+          this.toastr.error(error.error.ExceptionMessage, this.messages.MessageCaption);
+        } else if (error.status == 0) {
           this.toastr.error(this.messages.DataserviceNotAvaibale, this.messages.MessageCaption);
         } else {
           this.toastr.error(this.messages.GenaralError, this.messages.MessageCaption);
         }
       }
     )
+
   }
 
-  
+  AddModel(action: number) {
+    console.log("this.angFormModel.controls[model_name].value", this.angFormModel.controls["model_name"].value)
+    console.log("this.SelectedRowModel", this.SelectedRowModel)
+    if (this.angFormModel.controls["model_name"].value === "") {
+      this.toastr.error("Brand Name cannot be empty!", this.messages.MessageCaption);
+      return;
+    }
 
+    var obj: Model = new Model();
+    if (action == 2) {
+      if (this.SelectedRowModel === undefined) {
+        this.toastr.error("Please select a record from brands table to update!", this.messages.MessageCaption);
+        return;
+      } else {
+        obj.Id = this.SelectedRowModel["Id"];
+      }
+    } else {
+      obj.Id = 1;
+    }
+    obj.Name = this.angFormModel.controls["model_name"].value;
+    obj.CreatedBy = this.globalval.LoggedInUserId;
+    obj.ModifiedBy = this.globalval.LoggedInUserId;
+    obj.CreatedWhen = new Date();
+    obj.ModifiedWhen = new Date();
+    this.productservice.SaveModel(obj, action).subscribe(
+      data => {
+        this.toastr.success("Model saved succesfully", this.messages.MessageCaption);
+        this.GetAllModels();
+      },
+      error => {
+        if (error.status == 500) {
+          this.toastr.error(error.error.ExceptionMessage, this.messages.MessageCaption);
+        } else if (error.status == 0) {
+          this.toastr.error(this.messages.DataserviceNotAvaibale, this.messages.MessageCaption);
+        } else {
+          this.toastr.error(this.messages.GenaralError, this.messages.MessageCaption);
+        }
+      }
+    )
+
+  }
+
+
+  AddSeries(action: number) {
+    console.log("this.angFormModel.controls[model_name].value", this.angFormSeries.controls["series_name"].value)
+    console.log("this.SelectedRowModel", this.SelectedRowSeries)
+    if (this.angFormSeries.controls["series_name"].value === "") {
+      this.toastr.error("Series Name cannot be empty!", this.messages.MessageCaption);
+      return;
+    }
+
+    var obj: Series = new Series();
+    if (action == 2) {
+      if (this.SelectedRowSeries === undefined) {
+        this.toastr.error("Please select a record from Series table to update!", this.messages.MessageCaption);
+        return;
+      } else {
+        obj.Id = this.SelectedRowSeries["Id"];
+      }
+    } else {
+      obj.Id = 1;
+    }
+    obj.Name = this.angFormSeries.controls["series_name"].value;
+    obj.CreatedBy = this.globalval.LoggedInUserId;
+    obj.ModifiedBy = this.globalval.LoggedInUserId;
+    obj.CreatedWhen = new Date();
+    obj.ModifiedWhen = new Date();
+    this.productservice.SaveSeries(obj, action).subscribe(
+      data => {
+        this.toastr.success("Series saved succesfully", this.messages.MessageCaption);
+        this.GetAllSeries();
+      },
+      error => {
+        if (error.status == 500) {
+          this.toastr.error(error.error.ExceptionMessage, this.messages.MessageCaption);
+        } else if (error.status == 0) {
+          this.toastr.error(this.messages.DataserviceNotAvaibale, this.messages.MessageCaption);
+        } else {
+          this.toastr.error(this.messages.GenaralError, this.messages.MessageCaption);
+        }
+      }
+    )
+
+  }
+
+  //#endregion
 
 }
