@@ -15,6 +15,7 @@ export const navigation: NavigationLink[] = [
             {label: 'Search In Catalog',             url: './inventory/search-catelog'},
             {label: 'View Own Items',             url: './inventory/view-own-items'},
             {label: 'Specifications',             url: './inventory/specifications'},
+            {label: 'Specifications Items',             url: './inventory/specifications-items'},
             {label: 'Brands and Models',             url: './inventory/brandandmodels'},
             {label: 'Categorization',             url: './inventory/categorization'},
             

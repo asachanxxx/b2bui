@@ -19,20 +19,37 @@
               <div class="row">
                 <div class="col-md-6 col-xl-6 border border-secondary p-1">
 
-                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover stripe">
-                    <thead>
+                
+                  <table class="table table-striped table-bordered table-hover table-sm">
+                    <thead class="thead-dark">
                       <tr>
                         <th>ID</th>
-                        <th>Specification Master Name</th>
+                        <th>Catelog Name</th>
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let person of specmasters">
-                        <td>{{ person.Id }}</td>
-                        <td>{{ person.SpecName }}</td>
+                      <tr *ngFor="let obj of SpecItemMapped() ; let i = index" (click)="setClickedRowSpecMaster(i,obj)"
+                        [class.active]="i == SelectedRowItemIndex">
+                        <td>{{ obj.Id }}</td>
+                        <td>{{ obj.Name }}</td>
+                        <td> <button class="btn btn-primary btn-sm mr-1" (click)="btn_Delete_click(obj)">Remove</button></td>
                       </tr>
                     </tbody>
                   </table>
+
+                  <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="collectionSizeItem" [(page)]="pageItem"
+                      [pageSize]="pageSizeItem" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                      [boundaryLinks]="true">
+                    </ngb-pagination>
+
+                    <select class="custom-select" style="width: auto" [(ngModel)]="pageSizeItem">
+                      <option [ngValue]="5">5 items per page</option>
+                      <option [ngValue]="10">10 items per page</option>
+                      <option [ngValue]="20">20 items per page</option>
+                    </select>
+                  </div>
 
                 </div>
                 <div class="col-md-6 col-xl-6">
@@ -40,70 +57,65 @@
                   <form [formGroup]="angForm" novalidate>
                     <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Level1Id)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
                     <div class="form-group">
-                      <label for="profile-first-name"><b>Select Category</b></label>
-                      <input type="text" class="form-control" id="profile-first-name" placeholder="Category"
-                        formControlName="Level1Id">
+                      <label for="exampleFormControlSelect1"><b>Select a Brand</b></label>
+                      <select  class="form-control" formControlName="BrandId" id="Brand_ID">
+                        <option *ngFor="let model of bindingBrands" [ngValue]="model">{{model.Name}}</option>
+                      </select>
                     </div>
                     <div
-                      *ngIf="angForm.controls['Level1Id'].invalid && (angForm.controls['Level1Id'].dirty || angForm.controls['Level1Id'].touched)"
+                      *ngIf="angForm.controls['BrandId'].invalid && (angForm.controls['BrandId'].dirty || angForm.controls['BrandId'].touched)"
                       class="alert alert-danger">
-                      <div *ngIf="angForm.controls['Level1Id'].errors.required">
-                        Category is required.
+                      <div *ngIf="angForm.controls['BrandId'].errors.required">
+                        Brand is required.
                       </div>
                     </div>
                     <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Brand)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
                     <div class="form-group">
-                      <label for="exampleFormControlSelect1"><b>Specification Detail DataType</b></label>
-                      <select class="form-control" formControlName="Brand" id="exampleFormControlSelect1">
-                        <option>Text</option>
-                        <option>Integer</option>
-                        <option>Date and Time</option>
-                        <option>Decimal</option>
-
+                      <label for="exampleFormControlSelect1"><b>Select a Series</b></label>
+                      <select  class="form-control" formControlName="SeriesId" id="Brand_ID">
+                        <option *ngFor="let model of bindingSeries" [ngValue]="model">{{model.Name}}</option>
                       </select>
                     </div>
                     <div
-                      *ngIf="angForm.controls['Brand'].invalid && (angForm.controls['Brand'].dirty || angForm.controls['Brand'].touched)"
+                      *ngIf="angForm.controls['SeriesId'].invalid && (angForm.controls['SeriesId'].dirty || angForm.controls['SeriesId'].touched)"
                       class="alert alert-danger">
-                      <div *ngIf="angForm.controls['Brand'].errors.required">
-                        Brand Name is required.
+                      <div *ngIf="angForm.controls['SeriesId'].errors.required">
+                        Series is required.
                       </div>
                     </div>
                     <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Model)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
                     <div class="form-group">
-                      <label for="exampleFormControlSelect1"><b>Model</b></label>
-                      <select class="form-control" formControlName="Model" id="exampleFormControlSelect1">
-                        <option>Text</option>
-                        <option>Integer</option>
-                        <option>Date and Time</option>
-                        <option>Decimal</option>
+                      <label for="exampleFormControlSelect1"><b>Select a Model</b></label>
+                      <select  class="form-control" formControlName="ModelId" id="Brand_ID">
+                        <option *ngFor="let model of bindingModels" [ngValue]="model">{{model.Name}}</option>
                       </select>
                     </div>
                     <div
-                      *ngIf="angForm.controls['Model'].invalid && (angForm.controls['Model'].dirty || angForm.controls['Model'].touched)"
+                      *ngIf="angForm.controls['ModelId'].invalid && (angForm.controls['ModelId'].dirty || angForm.controls['ModelId'].touched)"
                       class="alert alert-danger">
-                      <div *ngIf="angForm.controls['Model'].errors.required">
-                        Model Name is required.
+                      <div *ngIf="angForm.controls['ModelId'].errors.required">
+                        Model is required.
                       </div>
                     </div>
                     <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Series)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
 
                     <div class="form-group">
-                      <label for="profile-first-name"><b>Select Series</b></label>
-                      <input type="text" class="form-control" id="profile-first-name" placeholder="Series"
-                        formControlName="Series">
+                      <label for="exampleFormControlSelect1"><b>Select a Category</b></label>
+                      <select  class="form-control" formControlName="CategoryId" id="Brand_ID">
+                        <option *ngFor="let model of bindingCategories" [ngValue]="model">{{model.Level1Name}}</option>
+                      </select>
                     </div>
                     <div
-                      *ngIf="angForm.controls['Series'].invalid && (angForm.controls['Series'].dirty || angForm.controls['Series'].touched)"
+                      *ngIf="angForm.controls['CategoryId'].invalid && (angForm.controls['CategoryId'].dirty || angForm.controls['CategoryId'].touched)"
                       class="alert alert-danger">
-                      <div *ngIf="angForm.controls['Series'].errors.required">
-                        Series is required.
+                      <div *ngIf="angForm.controls['CategoryId'].errors.required">
+                        Category is required.
                       </div>
                     </div>
 
                     <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (ProductName)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
                     <div class="form-group">
-                      <label for="profile-first-name"><b> Select Catelog Name</b></label>
+                      <label for="profile-first-name"><b> Enter a Catelog Name</b></label>
                       <input type="text" class="form-control" id="profile-first-name" placeholder="Product Name"
                         formControlName="ProductName">
                     </div>
@@ -111,52 +123,9 @@
                       *ngIf="angForm.controls['ProductName'].invalid && (angForm.controls['ProductName'].dirty || angForm.controls['ProductName'].touched)"
                       class="alert alert-danger">
                       <div *ngIf="angForm.controls['ProductName'].errors.required">
-                          Catelog Name is required.
+                        Catelog Name is required.
                       </div>
                     </div>
-
-                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Part Number)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
-                    <!-- <div class="form-group">
-                      <label for="profile-first-name"><b>Select Part Number</b></label>
-                      <input type="text" class="form-control" id="profile-first-name" placeholder="Part Number"
-                        formControlName="PartNumber">
-                    </div>
-                    <div
-                      *ngIf="angForm.controls['PartNumber'].invalid && (angForm.controls['PartNumber'].dirty || angForm.controls['PartNumber'].touched)"
-                      class="alert alert-danger">
-                      <div *ngIf="angForm.controls['PartNumber'].errors.required">
-                        Part Number is required.
-                      </div>
-                    </div> -->
-
-                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (ItemNo)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
-                    <!-- <div class="form-group">
-                      <label for="profile-first-name"><b> Select Item Number</b></label>
-                      <input type="text" class="form-control" id="profile-first-name" placeholder="Spec Item Number"
-                        formControlName="ItemNo">
-                    </div>
-                    <div
-                      *ngIf="angForm.controls['ItemNo'].invalid && (angForm.controls['ItemNo'].dirty || angForm.controls['ItemNo'].touched)"
-                      class="alert alert-danger">
-                      <div *ngIf="angForm.controls['ItemNo'].errors.required">
-                        Item Number is required.
-                      </div>
-                    </div> -->
-                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (UNSPSC)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
-                    <!-- <div class="form-group">
-                      <label for="profile-first-name"><b>Select UNSPSC</b></label>
-                      <input type="text" class="form-control" id="profile-first-name" placeholder="UNSPSC"
-                        formControlName="UNSPSC">
-                    </div>
-                    <div
-                      *ngIf="angForm.controls['UNSPSC'].invalid && (angForm.controls['UNSPSC'].dirty || angForm.controls['UNSPSC'].touched)"
-                      class="alert alert-danger">
-                      <div *ngIf="angForm.controls['UNSPSC'].errors.required">
-                        UNSPSC is required.
-                      </div>
-                    </div> -->
-
-
 
                     <div>
                       <a href="" class="mr-3"> <i class="fas fa-question-circle mr-1"></i>I need help!</a>
@@ -169,8 +138,7 @@
                             class="far fa-save mr-1"></i></span>Save</button>
                       <button class="btn btn-primary btn-sm mr-1" (click)="btn_update_click()"><span><i
                             class="fa fa-external-link-alt mr-1"></i></span>Update</button>
-                      <button class="btn btn-danger btn-sm" (click)="btn_Delete_click()()"><span><i
-                            class="far fa-trash-alt mr-1"></i></span>Delete</button>
+                   
                     </div>
                   </form>
                 </div>

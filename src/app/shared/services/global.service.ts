@@ -38,5 +38,14 @@ export class GlobalsParams {
         this._ImageAPI = v;
     }
 
+    
+    private _PageInitialSize : number = 5;
+    public get PageInitialSize() : number {
+        return this._PageInitialSize;
+    }
+    public set PageInitialSize(v : number) {
+        this._PageInitialSize = v;
+    }
+    
 
 }

@@ -7,6 +7,7 @@ import { SpecificationsComponent } from './specifications/specifications.compone
 import { CatelogsearchComponent } from './catelogsearch/catelogsearch.component';
 import { BrandandmodelComponent } from './brandandmodel/brandandmodel.component';
 import { CategorizationComponent } from './categorization/categorization.component';
+import { SpecitemsComponent } from './specitems/specitems.component';
 
 
 const routes: Routes = [
@@ -72,6 +73,15 @@ const routes: Routes = [
     {
         path: 'categorization',
         component: CategorizationComponent,
+        data: {
+            columns: 3,
+            viewMode: 'grid',
+            sidebarPosition: 'start'
+        }
+    },
+    {
+        path: 'specifications-items',
+        component: SpecitemsComponent,
         data: {
             columns: 3,
             viewMode: 'grid',

@@ -1,8 +1,15 @@
-import { Component, OnInit, Input, Directive, Output, EventEmitter, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, Input, Directive, Output, EventEmitter, ViewChildren, QueryList, ɵConsole } from '@angular/core';
 import { NgbdSortableHeader, SortEvent, compare } from 'src/app/shared/directives/NgbdSortableHeader.directive';
+import { CateglogProducts } from 'src/app/shared/models/Inventory/catelog.model';
+import { ProductVM } from 'src/app/shared/models/Inventory/ProductSavevm.model';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { ProductService } from 'src/app/shared/services/Inventory/product.service';
+import { SystemMessages } from 'src/app/shared/services/messages.service';
+import { ToastrService } from 'ngx-toastr';
+import { GlobalsParams } from 'src/app/shared/services/global.service';
 
 interface Country {
-  id:number;
+  id: number;
   name: string;
   flag: string;
   area: number;
@@ -111,32 +118,91 @@ const COUNTRIES: Country[] = [
 @Component({
   selector: 'app-addproducts',
   templateUrl: './addproducts.component.html',
-  styleUrls: ['./addproducts.component.sass']
+  styleUrls: ['./addproducts.component.sass'],
+  providers: [ProductService]
 })
 export class AddproductsComponent implements OnInit {
 
-  selectedRow : Number;
+  //this will be used to store selected catelog from the top catelog grid
+  selectedCatelogObj: CateglogProducts
+
+  productHoldingObj: ProductVM
+
+  //Product data entry section
+  angForm: FormGroup;
+
+  createProductForm() {
+    this.angForm = this.fb.group({
+      ProductCode: ['', Validators.required],
+      // BrandId: ['', Validators.required],
+      // Series: ['', Validators.required],
+      // ModelId: ['', Validators.required],
+      ShortName: ['', Validators.required],
+      DisplayName: ['', Validators.required],
+      PartNumber: ['', Validators.required],
+      UNSPSC: [null],
+      Level1Id: ['', Validators.required],
+      Level2Id: ['', Validators.required],
+      Level3Id: ['', Validators.required],
+      PriceValidityPeriod: ['', Validators.required],
+      ProductPrice: ['', Validators.required],
+    });
+  }
+
+
+  // public PriceValidityPeriod: number;
+  // public SupplierPrice: number;
+  // public ProductPrice: number;
+  // public DefaultImagePath: string;
+  // public AddedByASeller: boolean;
+  // public AddedSellerID: string;
+
+
+
+  constructor(
+    private productservice: ProductService,
+    private messages: SystemMessages,
+    private toastr: ToastrService,
+    private fb: FormBuilder,
+    private fb1: FormBuilder,
+    private globalval: GlobalsParams
+  ) {
+    this.productHoldingObj = new ProductVM();
+    this.createProductForm();
+  }
+
+
+
+  selectedRow: Number;
   page = 1;
   pageSize = 5;
   collectionSize = COUNTRIES.length;
 
-  constructor() { }
+
 
   ngOnInit() {
   }
 
-  setClickedRow(index,obj:any){
-    console.log("setClickedRow obj" ,obj , "  index  " , index)
+  setClickedRow(index, obj: any) {
+    console.log("setClickedRow obj", obj, "  index  ", index)
     this.selectedRow = index;
   }
- 
+
 
 
   get countries(): Country[] {
     return COUNTRIES
-      .map((country, i) => ({id: i + 1, ...country}))
+      .map((country, i) => ({ id: i + 1, ...country }))
       .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 
-  
+  btn_table_addSpecItem(country, ProductCode: any) {
+
+    console.log("btn_table_addSpecItem", country, "  ProductCode ", ProductCode);
+  }
+
+  onBid(event: any, country: any, name_value: any) {
+    console.log("onBid event", event, "  country ", country , "  name_value  " , name_value);
+  }
+
 }

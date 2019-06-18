@@ -22,6 +22,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { BrandandmodelComponent } from './brandandmodel/brandandmodel.component';
 import { CategorizationComponent } from './categorization/categorization.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { SpecitemsComponent } from './specitems/specitems.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         AddproductsComponent,
         BrandandmodelComponent,
         CategorizationComponent,
+        SpecitemsComponent,
 
 
     ],

@@ -1,0 +1,139 @@
+<div class="block block-posts block-posts--layout--{{ layout }}" [attr.data-layout]="layout">
+  <div class="container pt-3">
+    <div class="block-posts__slider">
+      <div class="card">
+        <div class="card-header p-2 bg-primary text-white">
+          <h3>Specification Items</h3>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-body p-1">
+
+
+          <div class="card">
+            <div class="card-header bg-transparent border-success border border-secondary p-2 ">
+              <h5>Items</h5>
+              <p class="m-0 font-9">All items has thire own charastatistical brand associated with. this is the place
+                you can
+                add new brands to system witch not yet inserted.
+                Please note that brand name cannot be duplicate.
+              </p>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-8 col-xl-8 p-1">
+
+                  <table class="table table-striped table-bordered table-hover table-sm">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th>ID</th>
+                        <th>Item Name</th>
+                        <th>Display Name</th>
+                        <th>Approved</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let obj of SpecItemMapped() ; let i = index" (click)="setClickedRowSpecItem(i,obj)"
+                        [class.active]="i == SelectedRowSpecIndex">
+                        <td>{{ obj.Id }}</td>
+                        <td>{{ obj.SpecItemName }}</td>
+                        <td>{{ obj.SpecItemDisplayName }}</td>
+                        <td>{{ obj.IsApproved }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="collectionSizeSpec" [(page)]="pageSpec"
+                      [pageSize]="pageSizeSpec" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                      [boundaryLinks]="true">
+                    </ngb-pagination>
+
+                    <select class="custom-select" style="width: auto" [(ngModel)]="pageSizeSpec">
+                      <option [ngValue]="5">5 items per page</option>
+                      <option [ngValue]="10">10 items per page</option>
+                      <option [ngValue]="20">20 items per page</option>
+                    </select>
+                  </div>
+
+
+                </div>
+                <div class="col-md-4 col-xl-4">
+
+                  <form [formGroup]="angForm" novalidate>
+
+                    <div class="form-group">
+                      <label for="profile-first-name"><b>Spec Item Name</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="Spec Item Name"
+                        formControlName="Spec_name">
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['Spec_name'].invalid && (angForm.controls['Spec_name'].dirty || angForm.controls['Spec_name'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['Spec_name'].errors.required">
+                          Spec Item Name is required.
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="profile-first-name"><b>Display Name</b></label>
+                      <input type="text" class="form-control" id="profile-first-name" placeholder="Spec Item Name"
+                        formControlName="Spec_displayname">
+                    </div>
+                    <div
+                      *ngIf="angForm.controls['Spec_displayname'].invalid && (angForm.controls['Spec_displayname'].dirty || angForm.controls['Spec_displayname'].touched)"
+                      class="alert alert-danger">
+                      <div *ngIf="angForm.controls['Spec_displayname'].errors.required">
+                          Spec Item Name is required.
+                      </div>
+                    </div>
+
+
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1"><b>Spec Item DataType</b></label>
+                      <select class="form-control" formControlName="Spec_datatype" id="exampleFormControlSelect1">
+                        <option>Text</option>
+                        <option>Integer</option>
+                        <option>Date and Time</option>
+                        <option>Decimal</option>
+                      </select>
+                    </div>
+
+                    <div
+                    *ngIf="angForm.controls['Spec_datatype'].invalid && (angForm.controls['Spec_datatype'].dirty || angForm.controls['Spec_datatype'].touched)"
+                    class="alert alert-danger">
+                    <div *ngIf="angForm.controls['Spec_datatype'].errors.required">
+                        Spec Item DataType is required.
+                    </div>
+                  </div>
+
+
+
+                    <div>
+                      <i class="fas fa-question-circle mr-1"></i>
+                      <a href="">I need help!</a>
+                    </div>
+                    <div class="form-group mt-1 mb-0">
+                      <button class="btn btn-primary btn-sm mr-1" (click)="btn_SpecItems_save_click()"><span><i
+                            class="far fa-save mr-1"></i></span>Save</button>
+                      <button class="btn btn-primary btn-sm mr-1" (click)="btn_SpecItems_update_click()"><span><i
+                            class="fa fa-external-link-alt mr-1"></i></span>Update</button>
+                      <button class="btn btn-danger btn-sm" (click)="btn_SpecItems_delete_click()"><span><i
+                            class="far fa-trash-alt mr-1"></i></span>Delete</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- end card body -->
+          </div>
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>

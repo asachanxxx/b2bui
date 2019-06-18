@@ -9,29 +9,45 @@
         <div class="card-body p-1">
 
           <div class="card">
-            <div class="card-header bg-dark  text-white p-2 ">
+            <div class="card-header bg-transparent border-success border border-secondary p-2">
               <h5>Specification Master</h5>
-              <p class="m-0">This will define your specification templates.you cand define one for each category</p>
+              <p class="m-0 font-9">This will define your specification templates.you cand define one for each category</p>
             </div>
             <div class="card-divider"></div>
             <div class="card-body">
               <div class="row">
-                <div class="col-md-6 col-xl-6 border border-secondary p-1">
+                <div class="col-md-6 col-xl-6 p-1">
 
-                  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover stripe">
-                    <thead>
+                  <table class="table table-striped table-bordered table-hover table-sm">
+                    <thead class="thead-dark">
                       <tr>
                         <th>ID</th>
-                        <th>Specification Master Name</th>
+                        <th>SpecMaster Name</th>
+                        <th>Approved</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let person of specmasters">
-                        <td>{{ person.Id }}</td>
-                        <td>{{ person.SpecName }}</td>
+                      <tr *ngFor="let obj of BrandsSM() ; let i = index" (click)="setClickedRowSpecMaster(i,obj)"
+                        [class.active]="i == SelectedRowSpecMasterIndex">
+                        <td>{{ obj.Id }}</td>
+                        <td>{{ obj.SpecName }}</td>
+                        <td>{{ obj.IsApproved }}</td>
                       </tr>
                     </tbody>
                   </table>
+
+                  <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="collectionSizeSpecMaster" [(page)]="pageSpecMaster"
+                      [pageSize]="pageSizeSpecMaster" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                      [boundaryLinks]="true">
+                    </ngb-pagination>
+
+                    <select class="custom-select" style="width: auto" [(ngModel)]="pageSizeSpecMaster">
+                      <option [ngValue]="5">5 items per page</option>
+                      <option [ngValue]="10">10 items per page</option>
+                      <option [ngValue]="20">20 items per page</option>
+                    </select>
+                  </div>
 
                 </div>
                 <div class="col-md-6 col-xl-6">
@@ -70,57 +86,54 @@
 
 
 
-
-
-
-
-
           <div class="card">
-            <div class="card-header bg-dark  text-white p-2 ">
-              <h5>Specification Details</h5>
-              <p class="m-0">Select master parameter from the top and add detail parameters for it</p>
+            <div class="card-header bg-transparent border-success border border-secondary p-2">
+              <h5>Select Specification Details</h5>
+              <p class="m-0 font-9">Select master parameter from the top and add detail parameters for it</p>
             </div>
             <div class="card-divider"></div>
             <div class="card-body">
               <div class="row">
-                <div class="col-md-6 col-xl-6 border border-secondary p-1">
-                  <table datatable class="row-border hover">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>First name</th>
-                        <th>Last name</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Foo</td>
-                        <td>Bar</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Someone</td>
-                        <td>Youknow</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Iamout</td>
-                        <td>Ofinspiration</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Yoda</td>
-                        <td>Skywalker</td>
-                      </tr>
+                <div class="col-md-6 col-xl-6 p-1">
+                   
+                  <label for="profile-first-name"><b>Current Spec Items</b></label>
+                    <table class="table table-striped table-bordered table-hover table-sm">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th>Display Name</th>
+                            <th>DataType</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let obj of SpecItemMapped() ; let i = index" (click)="setClickedRowSpecItem(i,obj)"
+                            [class.active]="i == SelectedRowSpecIndex">
+                            <td>{{ obj.SpecItemDisplayName }}</td>
+                            <td>{{ obj.DataType }}</td>
+                            <td> <button class="btn btn-primary btn-sm mr-1" (click)="btn_Add_specItemToList(obj)">Add</button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+    
+                      <div class="d-flex justify-content-between p-2">
+                        <ngb-pagination [collectionSize]="collectionSizeSpec" [(page)]="pageSpec"
+                          [pageSize]="pageSizeSpec" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                          [boundaryLinks]="true">
+                        </ngb-pagination>
+    
+                        <select class="custom-select" style="width: auto" [(ngModel)]="pageSizeSpec">
+                          <option [ngValue]="5">5 items per page</option>
+                          <option [ngValue]="10">10 items per page</option>
+                          <option [ngValue]="20">20 items per page</option>
+                        </select>
+                      </div>
+    
+               
 
-                    </tbody>
-                  </table>
                 </div>
-                <div class="col-md-6 col-xl-6">
+                <div class="col-md-6 col-xl-6 p-1">
 
-
-                  <form [formGroup]="angForm1" novalidate>
+                  <!-- <form [formGroup]="angForm1" novalidate>
 
                     <div class="form-group">
                       <label for="profile-first-name"><b>Specification Detail Name</b></label>
@@ -141,6 +154,7 @@
                         <option>Integer</option>
                         <option>Date and Time</option>
                         <option>Decimal</option>
+                        <option>Yes/No</option>
 
                       </select>
                     </div>
@@ -170,12 +184,58 @@
                       <button class="btn btn-danger btn-sm" (click)="Deletespecdetail()"><span><i
                             class="far fa-trash-alt mr-1"></i></span>Delete</button>
                     </div>
-                  </form>
+                  </form> -->
+
+                  <label for="profile-first-name"><b>Spec Items For "Spec Master name" </b></label>
+                  <table class="table table-striped table-bordered table-hover table-sm">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th>Display Name</th>
+                          <th>Value</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let obj of SpecDetMapped() ; let i = index" (click)="setClickedRowSpecdet(i,obj)"
+                          [class.active]="i == SelectedRowSpecdetIndex">
+                          <td>{{ obj.SpecItemDisplayName }}</td>
+                          <td>{{ obj.DataType }}</td>
+                          <td> <button class="btn btn-primary btn-sm mr-1" (click)="btn_Remove_specItem(obj)">
+                              <span><i
+                                class="far fa-save mr-1"></i></span>
+                          </button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+  
+                    <div class="d-flex justify-content-between p-2">
+                      <ngb-pagination [collectionSize]="collectionSizeSpecdet" [(page)]="pageSpecdet"
+                        [pageSize]="pageSizeSpecdet" [maxSize]="3" [rotate]="true" [ellipses]="false"
+                        [boundaryLinks]="true">
+                      </ngb-pagination>
+  
+                      <select class="custom-select" style="width: auto" [(ngModel)]="pageSizeSpecdet">
+                        <option [ngValue]="5">5 items per page</option>
+                        <option [ngValue]="10">10 items per page</option>
+                        <option [ngValue]="20">20 items per page</option>
+                      </select>
+                    </div>
+
                 </div>
               </div>
 
             </div>
             <!-- end card body -->
+            <div class="card-footer border-top">
+                <div class="form-group mt-1 mb-0">
+                    <button class="btn btn-primary btn-sm mr-1" (click)="Addspecdetail()"><span><i
+                          class="far fa-save mr-1"></i></span>Clear Spec Items</button>
+                    <!-- <button class="btn btn-primary btn-sm mr-1" (click)="Updatespecdetail()"><span><i
+                          class="fa fa-external-link-alt mr-1"></i></span>Update</button>
+                    <button class="btn btn-danger btn-sm" (click)="Deletespecdetail()"><span><i
+                          class="far fa-trash-alt mr-1"></i></span>Delete</button> -->
+                  </div>
+            </div>
           </div>
 
         </div>
