@@ -1,0 +1,471 @@
+<div class="block block-posts block-posts--layout--{{ layout }}" [attr.data-layout]="layout">
+    <div class="container pt-3">
+        <div class="block-posts__slider">
+            <div class="card">
+                <!-- <div class="card-header">
+                    <h5>Edit Profile</h5>
+                </div> -->
+                <div class="card-header bg-transparent border-success border border-secondary p-2">
+                    <h5>Products</h5>
+                    <p class="m-0 font-9">Select master parameter from the top and add detail parameters for it
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-body p-0 pl-4 pr-4 pt-3">
+                        <label for="inputEmail4"><b>Search products</b></label>
+                        <div class="form-row ">
+                            <div class="form-group col-md-4">
+                                <label class="font-9" for="inputPassword4">Using Model Name</label>
+                                <input type="email" class="form-control input-sm" id="search_modelname"
+                                    placeholder="Model Name">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="font-9" for="inputPassword4">Using Series Name</label>
+                                <input type="password" class="form-control input-sm" id="search_seriesname"
+                                    placeholder="Series Name">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="font-9" for="inputPassword4">Using Product Name</label>
+                                <input type="password" class="form-control input-sm" id="search_[rpductname"
+                                    placeholder="Product Name">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-body pt-0 pb-1">
+                    <div class="row ">
+                        <div class="col-12 col-lg-12 col-xl-12">
+                            <table class="table table-striped table-bordered table-hover table-sm">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Country</th>
+                                        <th scope="col">Area</th>
+                                        <th scope="col">Population</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let country of countries ; let i = index"
+                                        (click)="setClickedRow(i,country)" [class.active]="i == selectedRow">
+                                        <td scope="row">{{ country.id }}</td>
+                                        <td>{{ country.name }}</td>
+                                        <td>{{ country.area | number}}</td>
+                                        <td>{{ country.population | number }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="d-flex justify-content-between p-2">
+                                <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
+                                </ngb-pagination>
+
+                                <select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
+                                    <option [ngValue]="5">5 items per page</option>
+                                    <option [ngValue]="10">10 items per page</option>
+                                    <option [ngValue]="20">20 items per page</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group mt-1 mb-0">
+                            <button class="btn btn-primary btn-sm mr-1" (click)="btn_addPrice()"><span><i
+                                        class="far fa-save mr-1"></i></span>Add Price</button>
+                            <button class="btn btn-primary btn-sm mr-1" (click)="btn_addproduct()"><span><i
+                                        class="fa fa-external-link-alt mr-1"></i></span>Add Product</button>
+                            <button class="btn btn-primary btn-sm mr-1" (click)="btn_addSpecification()"><span><i
+                                        class="far fa-trash-alt mr-1"></i></span>Add Specification</button>
+                            <button class="btn btn-primary btn-sm" (click)="btn_Addwarranty()"><span><i
+                                        class="far fa-trash-alt mr-1"></i></span>Add Warranty</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <ngb-tabset>
+                        <!-- **************************************************************************************************************************************************************************************** -->
+                        <!-- ********************************************************************    Add product section               ****************************************************************************** -->
+                        <!-- **************************************************************************************************************************************************************************************** -->
+                        <ngb-tab>
+                            <ng-template ngbTabTitle><b>Product Details</b></ng-template>
+                            <ng-template ngbTabContent>
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form [formGroup]="angForm" novalidate>
+
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-12">
+                                                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (ProductCode)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                                                    <div class="form-group">
+                                                        <label for="profile-first-name"><b> Enter Product
+                                                                Code</b></label>
+                                                        <input type="text" class="form-control" id="ProductCode"
+                                                            placeholder="Product Code" formControlName="ProductCode">
+                                                    </div>
+                                                    <div *ngIf="angForm.controls['ProductCode'].invalid && (angForm.controls['ProductCode'].dirty || angForm.controls['ProductCode'].touched)"
+                                                        class="alert alert-danger">
+                                                        <div *ngIf="angForm.controls['ProductCode'].errors.required">
+                                                            Product Code is required.
+                                                        </div>
+                                                    </div>
+                                                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (ShortName)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                                                    <div class="form-group">
+                                                        <label for="profile-first-name"><b> Enter a Product
+                                                                ShortName</b></label>
+                                                        <input type="text" class="form-control" id="ShortName"
+                                                            placeholder="Product Name" formControlName="ShortName">
+                                                    </div>
+                                                    <div *ngIf="angForm.controls['ShortName'].invalid && (angForm.controls['ShortName'].dirty || angForm.controls['ShortName'].touched)"
+                                                        class="alert alert-danger">
+                                                        <div *ngIf="angForm.controls['ShortName'].errors.required">
+                                                            ShortName is required.
+                                                        </div>
+                                                    </div>
+                                                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (DisplayName)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                                                    <div class="form-group">
+                                                        <label for="profile-first-name"><b> Enter a Product
+                                                                DisplayName</b></label>
+                                                        <input type="text" class="form-control" id="DisplayName"
+                                                            placeholder="Display Name" formControlName="DisplayName">
+                                                    </div>
+                                                    <div *ngIf="angForm.controls['DisplayName'].invalid && (angForm.controls['DisplayName'].dirty || angForm.controls['DisplayName'].touched)"
+                                                        class="alert alert-danger">
+                                                        <div *ngIf="angForm.controls['DisplayName'].errors.required">
+                                                            DisplayName is required.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-6 col-xl-6">
+
+
+                                                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (PartNumber)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                                                    <div class="form-group">
+                                                        <label for="profile-first-name"><b> Enter a Part Number
+                                                            </b></label>
+                                                        <input type="text" class="form-control" id="PartNumber"
+                                                            placeholder="Part Number" formControlName="PartNumber">
+                                                    </div>
+                                                    <div *ngIf="angForm.controls['PartNumber'].invalid && (angForm.controls['PartNumber'].dirty || angForm.controls['PartNumber'].touched)"
+                                                        class="alert alert-danger">
+                                                        <div *ngIf="angForm.controls['PartNumber'].errors.required">
+                                                            Part Number is required.
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (UNSPSC)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                                                    <div class="form-group">
+                                                        <label for="profile-first-name"><b> Enter a UNSPSC
+                                                            </b></label>
+                                                        <input type="text" class="form-control" id="UNSPSC"
+                                                            placeholder="UNSPSC" formControlName="UNSPSC">
+                                                    </div>
+                                                    <div *ngIf="angForm.controls['UNSPSC'].invalid && (angForm.controls['UNSPSC'].dirty || angForm.controls['UNSPSC'].touched)"
+                                                        class="alert alert-danger">
+                                                        <div *ngIf="angForm.controls['UNSPSC'].errors.required">
+                                                            UNSPSC is required.
+                                                        </div>
+                                                    </div>
+                                                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (ProductPrice)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                                                    <div class="form-group">
+                                                        <label for="profile-first-name"><b> Enter Product
+                                                                Price</b></label>
+                                                        <input type="number" class="form-control" id="ProductPrice"
+                                                            placeholder="0.00" formControlName="ProductPrice">
+                                                    </div>
+                                                    <div *ngIf="angForm.controls['ProductPrice'].invalid && (angForm.controls['ProductPrice'].dirty || angForm.controls['ProductPrice'].touched)"
+                                                        class="alert alert-danger">
+                                                        <div *ngIf="angForm.controls['ProductPrice'].errors.required">
+                                                            Product Price is required.
+                                                        </div>
+                                                    </div>
+                                                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (PriceValidityPeriod)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                                                    <div class="form-group">
+                                                        <label for="profile-first-name"><b> Enter Price Validity
+                                                                Period</b></label>
+                                                        <input type="number" class="form-control"
+                                                            id="PriceValidityPeriod" placeholder="0"
+                                                            formControlName="PriceValidityPeriod">
+                                                    </div>
+                                                    <div *ngIf="angForm.controls['PriceValidityPeriod'].invalid && (angForm.controls['PriceValidityPeriod'].dirty || angForm.controls['PriceValidityPeriod'].touched)"
+                                                        class="alert alert-danger">
+                                                        <div
+                                                            *ngIf="angForm.controls['PriceValidityPeriod'].errors.required">
+                                                            Price Validity Period is required.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-xl-6">
+
+                                                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Level1Id)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                                                    <div class="form-group">
+                                                        <label for="exampleFormControlSelect1"><b>Select a
+                                                                Category</b></label>
+                                                        <select class="form-control" formControlName="Level1Id"
+                                                            id="Level1Id">
+                                                            <option *ngFor="let model of bindingBrands"
+                                                                [ngValue]="model">
+                                                                {{model.Name}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div *ngIf="angForm.controls['Level1Id'].invalid && (angForm.controls['Level1Id'].dirty || angForm.controls['Level1Id'].touched)"
+                                                        class="alert alert-danger">
+                                                        <div *ngIf="angForm.controls['Level1Id'].errors.required">
+                                                            Category is required.
+                                                        </div>
+                                                    </div>
+                                                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Level2Id)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                                                    <div class="form-group">
+                                                        <label for="exampleFormControlSelect1"><b>Select a Sub
+                                                                Category</b></label>
+                                                        <select class="form-control" formControlName="Level2Id"
+                                                            id="Level2Id">
+                                                            <option *ngFor="let model of bindingSeries"
+                                                                [ngValue]="model">
+                                                                {{model.Name}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div *ngIf="angForm.controls['Level2Id'].invalid && (angForm.controls['Level2Id'].dirty || angForm.controls['Level2Id'].touched)"
+                                                        class="alert alert-danger">
+                                                        <div *ngIf="angForm.controls['Level2Id'].errors.required">
+                                                            Sub Category is required.
+                                                        </div>
+                                                    </div>
+                                                    <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (Sub Category2)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+                                                    <div class="form-group">
+                                                        <label for="exampleFormControlSelect1"><b>Select a Sub
+                                                                Category
+                                                                2</b></label>
+                                                        <select class="form-control" formControlName="Level3Id"
+                                                            id="Sub_Category2">
+                                                            <option *ngFor="let model of bindingModels"
+                                                                [ngValue]="model">
+                                                                {{model.Name}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div *ngIf="angForm.controls['Level3Id'].invalid && (angForm.controls['Level3Id'].dirty || angForm.controls['Level3Id'].touched)"
+                                                        class="alert alert-danger">
+                                                        <div *ngIf="angForm.controls['Level3Id'].errors.required">
+                                                            Sub Category 2 is required.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div>
+                                                        <a href="" class="mr-3"> <i
+                                                                class="fas fa-question-circle mr-1"></i>I
+                                                            need help!</a>
+                                                        <a href=""> <i class="far fa-file-excel mr-1"></i>Download
+                                                            Excel
+                                                            Format</a>
+                                                    </div>
+                                                    <div class="form-group mt-1 mb-0">
+                                                        <button class="btn btn-primary btn-sm mr-1"
+                                                            (click)="btn_excelUpload_click()"><span><i
+                                                                    class="far fa-file-excel mr-1"></i></span>
+                                                            Excel
+                                                            Upload</button>
+                                                        <button class="btn btn-primary btn-sm mr-1"
+                                                            (click)="btn_save_click()"><span><i
+                                                                    class="far fa-save mr-1"></i></span>Save</button>
+                                                        <button class="btn btn-primary btn-sm mr-1"
+                                                            (click)="btn_update_click()"><span><i
+                                                                    class="fa fa-external-link-alt mr-1"></i></span>Update</button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </form>
+
+                                    </div>
+                                </div>
+
+
+                            </ng-template>
+                        </ngb-tab>
+
+                        <!-- **************************************************************************************************************************************************************************************** -->
+                        <!-- ********************************************************************    Add Specification                 ****************************************************************************** -->
+                        <!-- **************************************************************************************************************************************************************************************** -->
+
+                        <ngb-tab>
+                            <ng-template ngbTabTitle><b>Specification</b></ng-template>
+                            <ng-template ngbTabContent>
+
+                                <!-- first based on the category supplier can select an spec master for the
+                                product and all the spec masters need to filter down by curreponsding category
+                                and the it will filled some how and let user to enter thire own values.
+                                only the values enter are display in the product. -->
+
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <div class="row">
+                                            <div class="col-md-12 col-xl-12">
+                                                <!-- /*/*/*/*/*/**/*/*/*/*/*/*  (ProductCode)  */*/*/*/*/*/*/*/*//**/**/*/*/*/*/*/*/*/*/*/*/*/*/*/**/ -->
+
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlSelect1"><b>Select an Specification
+                                                            Master</b></label>
+                                                    <select class="form-control" id="Sub_Category2">
+                                                        <option *ngFor="let model of bindingModels" [ngValue]="model">
+                                                            {{model.Name}}</option>
+                                                    </select>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-12 col-lg-12 col-xl-12">
+                                                <table class="table table-striped table-bordered table-hover table-sm">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Country</th>
+                                                            <th scope="col">Area</th>
+                                                            <th scope="col"></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let country of countries ; let i = index">
+                                                            <td scope="row">{{ country.id }}</td>
+                                                            <td>{{ country.name }}</td>
+                                                            <td>{{ country.area | number}}</td>
+
+                                                            <td>
+                                                                <form role="form"
+                                                                    (submit)="onBid($event, country, name.value)">
+                                                                    <input class="mr-2" type="text" #name value={{country.name}}>
+
+                                                                    <button class="btn btn-primary btn-sm"
+                                                                        type="submit"><span><i
+                                                                                class="far fa-trash-alt mr-1"></i></span>Add
+                                                                    </button>
+                                                                    <!-- <button type="submit">Bid</button> -->
+                                                                    <!-- <button class="btn btn-primary btn-sm" type="submit"
+                                                                    (click)="btn_table_addSpecItem(country,ProductCode)"><span><i
+                                                                            class="far fa-trash-alt mr-1"></i></span>Add -->
+                                                                    <!-- </button> -->
+                                                                </form>
+
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-primary btn-sm"
+                                                                    type="submit"><span><i
+                                                                            class="far fa-trash-alt mr-1"></i></span>Add
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <div class="d-flex justify-content-between p-2">
+                                                    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page"
+                                                        [pageSize]="pageSize">
+                                                    </ngb-pagination>
+
+                                                    <select class="custom-select" style="width: auto"
+                                                        [(ngModel)]="pageSize">
+                                                        <option [ngValue]="5">5 items per page</option>
+                                                        <option [ngValue]="10">10 items per page</option>
+                                                        <option [ngValue]="20">20 items per page</option>
+                                                    </select>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <!-- 
+                                <div class="card">
+                                    <div class="card-body pt-0 pb-1">
+                                      
+                                    </div>
+                                </div> -->
+
+
+                            </ng-template>
+                        </ngb-tab>
+
+                        <!-- **************************************************************************************************************************************************************************************** -->
+                        <!-- ********************************************************************    Add Warranty section              ****************************************************************************** -->
+                        <!-- **************************************************************************************************************************************************************************************** -->
+
+                        <ngb-tab>
+                            <ng-template ngbTabTitle><b>Warranty </b></ng-template>
+                            <ng-template ngbTabContent>
+                                This section ca be used to show the warranty associated with the product
+                            </ng-template>
+                        </ngb-tab>
+
+
+                        <!-- **************************************************************************************************************************************************************************************** -->
+                        <!-- ********************************************************************    Add Supplier Prices               ****************************************************************************** -->
+                        <!-- **************************************************************************************************************************************************************************************** -->
+
+
+                        <ngb-tab>
+                            <ng-template ngbTabTitle><b> Supplier Prices </b></ng-template>
+                            <ng-template ngbTabContent>
+
+                                this section is to show all the suppliers associated with the products
+                                and let current supplier add his own price
+
+                            </ng-template>
+                        </ngb-tab>
+
+
+                        <!-- **************************************************************************************************************************************************************************************** -->
+                        <!-- ********************************************************************    Add images section                ****************************************************************************** -->
+                        <!-- **************************************************************************************************************************************************************************************** -->
+
+
+                        <ngb-tab>
+                            <ng-template ngbTabTitle><b> Images </b></ng-template>
+                            <ng-template ngbTabContent>
+                                Image section of a given product. this can be added independantly
+                            </ng-template>
+                        </ngb-tab>
+
+                    </ngb-tabset>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

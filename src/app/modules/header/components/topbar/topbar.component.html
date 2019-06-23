@@ -9,13 +9,13 @@
                 <a class="topbar-link" routerLink="./site/contact-us">Contacts</a>
             </div>
             <div class="topbar__item topbar__item--link">
-                <a class="topbar-link" routerLink="">Store Location</a>
+                <a class="topbar-link" routerLink="">Option1</a>
             </div>
             <div class="topbar__item topbar__item--link">
-                <a class="topbar-link" routerLink="./shop/track-order">Track Order</a>
+                <a class="topbar-link" routerLink="./shop/track-order">Option2</a>
             </div>
             <div class="topbar__item topbar__item--link">
-                <a class="topbar-link" routerLink="./blog">Blog</a>
+                <a class="topbar-link" routerLink="./blog">Option1</a>
             </div>
             <div class="topbar__spring"></div>
             <div class="topbar__item">
@@ -55,7 +55,11 @@
                     </div>
                 </div>
             </div>
-            <div class="topbar__item">
+
+            <!-- 
+                This part is hidden not deleted cus we need this in future and when we need the language thing we must enable this 
+            -->
+            <!-- <div class="topbar__item" >
                 <div class="topbar-dropdown" appDropdown="topbar-dropdown--opened" #languageDropdown="appDropdown">
                     <button class="topbar-dropdown__btn" type="button" (click)="languageDropdown.toggle()">
                         Language: <span class="topbar__item-value">EN</span>
@@ -77,7 +81,9 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> -->
+
+
         </div>
     </div>
 </div>
