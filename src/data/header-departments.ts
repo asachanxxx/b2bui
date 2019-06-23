@@ -1,6 +1,8 @@
 import { NavigationLink } from '../app/shared/interfaces/navigation-link';
 
-export const departments: NavigationLink[] = [
+export const departments: NavigationLink[] = 
+[
+    
     {label: 'Power Tools', url: './shop', menu: {
         type: 'megamenu',
         size: 'xl',
@@ -57,6 +59,8 @@ export const departments: NavigationLink[] = [
             ]}
         ]
     }},
+
+
     {label: 'Hand Tools', url: './shop', menu: {
         type: 'megamenu',
         size: 'lg',
